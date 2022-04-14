@@ -1,1 +1,2 @@
 # RPG-Game
+The three Design patterns I plan on using is the decorator pattern, the factory pattern and the mediator pattern.  The decorator pattern will be used for the evolution of characters. The factory pattern will be used for the building of both the users character and enemy characters. The mediator pattern will be used to mediate between events in the game such as battles, the store and finding items.
