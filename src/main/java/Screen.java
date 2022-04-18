@@ -1,22 +1,27 @@
 package main.java;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Screen extends JPanel implements ActionListener, KeyListener {
+public class Screen extends JPanel implements ActionListener, KeyListener, MouseListener {
 
     Timer t = new Timer(10,this);
-    Player p = new Player(25,25,25,25,1,1);
+    Player p = new Player(25,25,25,25,0,0);
+    Wall w = new Wall(25,25,25,25,0,0);
     
     public Screen() {
         addKeyListener(this);
         setFocusable(true);
+        addMouseListener(this);
         
         t.start();
     }
@@ -25,6 +30,7 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
         g.clearRect(0, 0, getWidth(), getHeight());
         
         p.draw(g);
+        w.draw(g);
     }
     
     @Override
@@ -67,8 +73,39 @@ public class Screen extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         p.tick();
-        
+        w.tick();
         repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+        w.setDx(e.getX());
+        w.setDy(e.getY());
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
         
     }
 

@@ -1,7 +1,7 @@
 package main.java;
 
+import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Label;
 
 import javax.swing.JFrame;
 
@@ -24,6 +24,5 @@ public class App extends JFrame{
         add(s);
         
         setVisible(true);
-        
     }
 }
