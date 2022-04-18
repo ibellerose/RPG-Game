@@ -1,9 +1,12 @@
 package main.java;
 
+import javax.swing.JFrame;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
         
-        App newApp = new App();
+        JFrame frame = new JFrame();
+        App newApp = new App(frame);
     }
 }
