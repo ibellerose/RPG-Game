@@ -1,6 +1,5 @@
 package main.java;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,36 +8,44 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Screen extends JPanel implements ActionListener, KeyListener, MouseListener {
-
+    
     Timer t = new Timer(10,this);
     Player p = new Player(25,25,25,25,50,50);
     //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
     boolean willIntercect = false;
     
+    SceneMediator sm = new SceneMediator(p);
+    
     int lastX = 0;
     int lastY = 0;
     
     public Screen() {
+        JButton wall = new JButton("Wall");
+        JButton enemy = new JButton("Enemy");
         addKeyListener(this);
         setFocusable(true);
         addMouseListener(this);
+        
+        this.getLayout().addLayoutComponent("enemy", enemy);
+        
+        add(wall);
+        //add(enemy);
         
         t.start();
     }
     
     public void paint(Graphics g) {
-        g.clearRect(lastX, lastY, 25, 25);
-        //g.clearRect(0, 0, 25, 25);
+        //g.clearRect(lastX, lastY, 25, 25);
+        g.clearRect(0, 0, getWidth(), getHeight());
         
         p.draw(g);
-        g.setColor(Color.GRAY);
         for(int i = 0; i < wallList.size(); i++) {
             wallList.get(i).draw(g);
         }
