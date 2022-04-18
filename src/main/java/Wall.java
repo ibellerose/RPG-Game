@@ -11,6 +11,7 @@ public class Wall extends Rectangle {
         setBounds(x,y,width,height);
         this.dx = dx;
         this.dy = dy;
+        
     }
     
     public void tick() {
@@ -28,5 +29,13 @@ public class Wall extends Rectangle {
     
     public void setDy(int dy) {
         this.dy = dy;
+    }
+    
+    public int getDx() {
+        return this.dx;
+    }
+    
+    public int getDy() {
+        return this.dy;
     }
 }
