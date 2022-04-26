@@ -1,6 +1,9 @@
 package main.java;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,34 +12,39 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-public class Screen extends JPanel implements ActionListener, KeyListener, MouseListener {
+import java.awt.event.KeyAdapter;
+
+public class AdventureScreen extends JPanel implements ActionListener, KeyListener, MouseListener {
     
     Timer t = new Timer(10,this);
-    Player p = new Player(25,25,25,25,50,50);
+    Player p = new Player(25,25,25,25,100,100);
     //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
+    ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
     boolean willIntercect = false;
+    boolean isWall = true;
+    boolean battle = false;
+    
+    Font font = new Font("Serif", Font.PLAIN, 24);
     
     SceneMediator sm = new SceneMediator(p);
     
     int lastX = 0;
     int lastY = 0;
     
-    public Screen() {
-        JButton wall = new JButton("Wall");
-        JButton enemy = new JButton("Enemy");
+    public AdventureScreen() {
+//        JButton wall = new JButton("Wall");
+//        JButton enemy = new JButton("Enemy");
         addKeyListener(this);
         setFocusable(true);
         addMouseListener(this);
         
-        this.getLayout().addLayoutComponent("enemy", enemy);
-        
-        add(wall);
-        //add(enemy);
+        setLayout(new GridBagLayout());
         
         t.start();
     }
@@ -44,11 +52,26 @@ public class Screen extends JPanel implements ActionListener, KeyListener, Mouse
     public void paint(Graphics g) {
         //g.clearRect(lastX, lastY, 25, 25);
         g.clearRect(0, 0, getWidth(), getHeight());
+
+        if(isWall) {
+            g.setColor(Color.getHSBColor(200, 20, 50));
+            g.fillRect(0, 0, 100, 50);
+        }else {
+            g.setColor(Color.GREEN);
+            g.fillRect(0, 0, 100, 50);
+        }
         
         p.draw(g);
         for(int i = 0; i < wallList.size(); i++) {
             wallList.get(i).draw(g);
         }
+        for(int i = 0; i < enemyList.size(); i++) {
+            enemyList.get(i).draw(g);
+        }
+        
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+        g.drawString("Enemy", 15, 30);
     }
     
     @Override
@@ -107,6 +130,30 @@ public class Screen extends JPanel implements ActionListener, KeyListener, Mouse
                 p.setDy(-25);
             break;
         }
+           
+        for(int i = 0; i < enemyList.size(); i++) {
+            if(p.intersects(enemyList.get(i))) {
+                battle = true;
+                System.out.println("Battle");
+                
+                //change scene
+                JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,this);
+                frame.getContentPane().removeAll();
+
+                //frame.getContentPane().add(sm.getScreen());
+                sm.battle(frame, p, enemyList.get(i));
+
+                frame.revalidate();
+                //frame.repaint();
+                frame.pack();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(590, 590);
+//                frame.addKeyListener(this);
+//                frame.setFocusable(true);
+//                frame.requestFocusInWindow();
+//                frame.setTitle("RPG Game");
+            }
+        }
         
     }
 
@@ -123,6 +170,9 @@ public class Screen extends JPanel implements ActionListener, KeyListener, Mouse
         for(int i = 0; i < wallList.size(); i++) {
             wallList.get(i).tick();
         }
+        for(int i = 0; i < enemyList.size(); i++) {
+            enemyList.get(i).tick();
+        }
         repaint();
     }
 
@@ -135,8 +185,22 @@ public class Screen extends JPanel implements ActionListener, KeyListener, Mouse
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        Wall w = new Wall(25,25,25,25,e.getX(),e.getY());
-        wallList.add(w);
+
+        if(isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
+            Wall w = new Wall(25,25,25,25,e.getX(),e.getY());
+            wallList.add(w);
+        }
+        if(!isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
+            Enemy enemy = new Enemy(25,25,25,25,e.getX(),e.getY());
+            enemyList.add(enemy);
+        }
+        
+        if(e.getX() < 100 && e.getY() < 50) {
+            isWall = false;
+        }
+        else {
+            isWall = true;
+        }
     }
 
     @Override

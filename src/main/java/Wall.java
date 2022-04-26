@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import javax.swing.ImageIcon;
-
 public class Wall extends Rectangle {
-
     private int dx, dy;
     
     public Wall(int x, int y, int width, int height, int dx, int dy) {

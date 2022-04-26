@@ -1,7 +1,5 @@
 package main.java;
 
-import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -9,24 +7,31 @@ public class App extends JFrame{
     JFrame appFrame;
     JButton wall = new JButton("Wall");
     JButton enemy = new JButton("enemy");
+    SceneMediator sm = new SceneMediator();
 
-    public App(JFrame frame) {
-        appFrame = frame;
+    //JFrame frame
+    public App() {
+        //appFrame = frame;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 400);
+        setSize(590, 590);
         setLocationRelativeTo(null);
         setTitle("RPG Game");
+        setResizable(false);
         
-        Init();
+        sm.adventure(this);
+        
+        //Init();
     }
     
     public void Init() {
-        setLayout(new GridLayout(2,0));
         
-        Screen s = new Screen();
+        AdventureScreen s = new AdventureScreen();
         
         add(s);
-        
         setVisible(true);
+    }
+    
+    public SceneMediator getMediator() {
+        return this.sm;
     }
 }
