@@ -83,6 +83,10 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
         g.setColor(Color.BLACK);
         g.drawString(player.getAttack(3).getName(), 215, 515);
         
+        //enemyName
+        g.setColor(Color.BLACK);
+        g.drawString(enemy.getName(), 200, 40);
+        
         //enemyHealth
         g.setColor(new Color(0, 255, 0));
         if(enemy.getHealth() <= 50) {

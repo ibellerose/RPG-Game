@@ -33,6 +33,7 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     Font font = new Font("Serif", Font.PLAIN, 24);
     
     SceneMediator sm = new SceneMediator(p);
+    EnemyFactory enemyFactory = new EnemyFactory();
     
     int lastX = 0;
     int lastY = 0;
@@ -43,7 +44,7 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         addMouseListener(this);
         
         setLayout(new GridBagLayout());
-        Enemy firstEnemy = new Enemy(25,25,25,25,400,100);
+        Enemy firstEnemy = enemyFactory.getEnemy();
         enemyList.add(firstEnemy);
         
         t.start();
@@ -56,7 +57,7 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
       addMouseListener(this);
       
       setLayout(new GridBagLayout());
-      Enemy firstEnemy = new Enemy(25,25,25,25,400,100);
+      Enemy firstEnemy = enemyFactory.getEnemy();
       enemyList.add(firstEnemy);
       
       t.start();
@@ -197,7 +198,8 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
             wallList.add(w);
         }
         if(!isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
-            Enemy enemy = new Enemy(25,25,25,25,e.getX(),e.getY());
+            //Enemy enemy = new Enemy(e.getX(),e.getY());
+            Enemy enemy = enemyFactory.getEnemy();
             enemyList.add(enemy);
         }
         

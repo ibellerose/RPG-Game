@@ -8,11 +8,14 @@ public class Enemy extends Rectangle {
     private int dx, dy;
     private Attack[] attacks = new Attack[4];
     private int health;
+    private String name;
     
-    public Enemy(int x, int y, int width, int height, int dx, int dy) {
-        setBounds(x,y,width,height);
+    public Enemy(int dx, int dy, String newName) {
+        //setBounds(x,y,width,height);
+        setBounds(25, 25, 25, 25);
         this.dx = dx;
         this.dy = dy;
+        this.name = newName;
         attacks[0] = new Attack("Sword Attack", 10);
         attacks[1] = new Attack("Sheild Bash", 5);
         attacks[2] = new Attack("Magic Attack", 12);
@@ -67,5 +70,15 @@ public class Enemy extends Rectangle {
     
     public Attack getAttack(int index) {
         return attacks[index];
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public void changeAttack(int index, String newName, int newDamage) {
+        int realIndex = index % 4;
+        attacks[realIndex] = new Attack(newName, newDamage);
+        
     }
 }
