@@ -27,6 +27,7 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
     //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
     Enemy enemy;
+    JPanel panel;
     
     Font font = new Font("Serif", Font.PLAIN, 24);
     
@@ -35,7 +36,8 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
     int lastX = 0;
     int lastY = 0;
     
-    public BattleScreen(Player p, Enemy e) {
+    public BattleScreen(Player p, Enemy e, JPanel panel) {
+        this.panel = panel;
         this.player = p;
         this.enemy = e;
         
@@ -135,9 +137,8 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
         if(this.enemy.getHealth() == 0) {
             JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,this);
             frame.getContentPane().removeAll();
-
-            //frame.getContentPane().add(sm.getScreen());
-            sm.adventure(frame);
+            this.player.movePlayer(50, 250);
+            sm.adventure(frame, this.player);
 
             frame.revalidate();
             //frame.repaint();

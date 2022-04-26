@@ -3,6 +3,7 @@ package main.java;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class SceneMediator implements Mediator {
     
@@ -11,6 +12,7 @@ public class SceneMediator implements Mediator {
     private ArrayList<Wall> adventureWallList;
     private AdventureScreen screen;
     private JFrame f;
+    private JPanel panel;
     
     public SceneMediator() {
         this.adventureWallList = new ArrayList<Wall>();
@@ -31,6 +33,17 @@ public class SceneMediator implements Mediator {
         frame.add(s);
         frame.setVisible(true);
     }
+    
+    @Override
+    public void adventure(JFrame frame, Player player) {
+        // TODO Auto-generated method stub
+        AdventureScreen s = new AdventureScreen(player);
+        
+        s.setFocusable(true);
+        
+        frame.add(s);
+        frame.setVisible(true);
+    }
 
     @Override
     public void store() {
@@ -41,7 +54,19 @@ public class SceneMediator implements Mediator {
     @Override
     public void battle(JFrame frame, Player p, Enemy e) {
         // TODO Auto-generated method stub
-        BattleScreen s = new BattleScreen(p, e);
+        BattleScreen s = new BattleScreen(p, e, this.panel);
+        
+        s.setFocusable(true);
+        
+        frame.add(s);
+        frame.setVisible(true);
+    }
+    
+    @Override
+    public void battle(JFrame frame, Player p, Enemy e, JPanel panel) {
+        // TODO Auto-generated method stub
+        this.panel = panel;
+        BattleScreen s = new BattleScreen(p, e, panel);
         
         s.setFocusable(true);
         

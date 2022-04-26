@@ -68,5 +68,10 @@ public class Player extends Rectangle {
     public Attack getAttack(int index) {
         return attacks[index];
     }
+    
+    public void movePlayer(int x, int y) {
+        this.dx = x;
+        this.dy = y;
+    }
 
 }

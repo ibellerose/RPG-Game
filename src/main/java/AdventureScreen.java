@@ -38,16 +38,29 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     int lastY = 0;
     
     public AdventureScreen() {
-//        JButton wall = new JButton("Wall");
-//        JButton enemy = new JButton("Enemy");
         addKeyListener(this);
         setFocusable(true);
         addMouseListener(this);
         
         setLayout(new GridBagLayout());
+        Enemy firstEnemy = new Enemy(25,25,25,25,400,100);
+        enemyList.add(firstEnemy);
         
         t.start();
     }
+    
+    public AdventureScreen(Player player1) {
+      this.p = player1;
+      addKeyListener(this);
+      setFocusable(true);
+      addMouseListener(this);
+      
+      setLayout(new GridBagLayout());
+      Enemy firstEnemy = new Enemy(25,25,25,25,400,100);
+      enemyList.add(firstEnemy);
+      
+      t.start();
+  }
     
     public void paint(Graphics g) {
         //g.clearRect(lastX, lastY, 25, 25);
@@ -92,7 +105,6 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         case KeyEvent.VK_RIGHT:
         case KeyEvent.VK_D:
             for(int i = 0; i < wallList.size(); i++) {
-                //if((wallList.get(i).getDx() + 25) == p.getDx() && (wallList.get(i).getDy()) == p.getDy())
                 if(wallList.get(i).intersects(p.getX() + 25, p.getY(), 25, 25))
                     willIntercect = true;
             }
@@ -102,7 +114,6 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         case KeyEvent.VK_DOWN:
         case KeyEvent.VK_S:
             for(int i = 0; i < wallList.size(); i++) {
-                //if((wallList.get(i).getDy() + 25) == p.getDy() && (wallList.get(i).getDx()) == p.getDx())
                 if(wallList.get(i).intersects(p.getX(), p.getY() + 25, 25, 25))
                     willIntercect = true;
             }
@@ -112,7 +123,6 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         case KeyEvent.VK_LEFT:
         case KeyEvent.VK_A:
             for(int i = 0; i < wallList.size(); i++) {
-                //if((wallList.get(i).getDx() - 25) == p.getDx() && (wallList.get(i).getDy()) == p.getDy())
                 if(wallList.get(i).intersects(p.getX() - 25, p.getY(), 25, 25))
                     willIntercect = true;
             }
@@ -122,7 +132,6 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         case KeyEvent.VK_UP:
         case KeyEvent.VK_W:
             for(int i = 0; i < wallList.size(); i++) {
-                //if((wallList.get(i).getDy() - 25) == p.getDy() && (wallList.get(i).getDx()) == p.getDx())
                 if(wallList.get(i).intersects(p.getX(), p.getY() - 25, 25, 25))
                     willIntercect = true;
             }
@@ -138,20 +147,17 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
                 
                 //change scene
                 JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,this);
+                JPanel panel = this;
                 frame.getContentPane().removeAll();
 
-                //frame.getContentPane().add(sm.getScreen());
-                sm.battle(frame, p, enemyList.get(i));
+                //sm.battle(frame, p, enemyList.get(i));
+                sm.battle(frame, p, enemyList.get(i), panel);
 
                 frame.revalidate();
-                //frame.repaint();
+
                 frame.pack();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(590, 590);
-//                frame.addKeyListener(this);
-//                frame.setFocusable(true);
-//                frame.requestFocusInWindow();
-//                frame.setTitle("RPG Game");
             }
         }
         
