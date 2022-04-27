@@ -7,20 +7,17 @@ import javax.swing.JPanel;
 
 public class SceneMediator implements Mediator {
     
-    private Player player;
-    private Enemy enemy;
-    private ArrayList<Wall> adventureWallList;
-    private AdventureScreen screen;
-    private JFrame f;
+//    private Player player;
+//    private ArrayList<Wall> adventureWallList;
     private JPanel panel;
     
     public SceneMediator() {
-        this.adventureWallList = new ArrayList<Wall>();
+        //this.adventureWallList = new ArrayList<Wall>();
     }
     
     public SceneMediator(Player player) {
-        this.player = player;
-        this.adventureWallList = new ArrayList<Wall>();
+        //this.player = player;
+        //this.adventureWallList = new ArrayList<Wall>();
     }
 
     @Override
@@ -74,17 +71,17 @@ public class SceneMediator implements Mediator {
         frame.setVisible(true);
     }
     
-    public void getAdventureWall(ArrayList<Wall> newWallList) {
-        this.adventureWallList = newWallList;
-    }
+//    public void getAdventureWall(ArrayList<Wall> newWallList) {
+//        this.adventureWallList = newWallList;
+//    }
 
-    public AdventureScreen getScreen() {
-        return this.screen;
-    }
-    
-    public JFrame getFrame() {
-        return this.f;
-    }
+//    public AdventureScreen getScreen() {
+//        return this.screen;
+//    }
+//    
+//    public JFrame getFrame() {
+//        return this.frame;
+//    }
 
     @Override
     public void gameOver(JFrame frame) {

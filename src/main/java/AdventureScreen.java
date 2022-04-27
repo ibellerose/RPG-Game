@@ -17,12 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import java.awt.event.KeyAdapter;
-
 public class AdventureScreen extends JPanel implements ActionListener, KeyListener, MouseListener {
     
-    Timer t = new Timer(10,this);
-    Player p = new Player(25,25,25,25,100,100);
+    Timer time = new Timer(10,this);
+    Player player = new Player(25,25,25,25,100,100);
     //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
     ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
@@ -32,12 +30,15 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     
     Font font = new Font("Serif", Font.PLAIN, 24);
     
-    SceneMediator sm = new SceneMediator(p);
+    SceneMediator sm = new SceneMediator(player);
     EnemyFactory enemyFactory = new EnemyFactory();
     
     int lastX = 0;
     int lastY = 0;
     
+    /*
+     * Initiate AventureScreen
+     */
     public AdventureScreen() {
         addKeyListener(this);
         setFocusable(true);
@@ -47,39 +48,41 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
         Enemy firstEnemy = enemyFactory.getEnemy();
         enemyList.add(firstEnemy);
         
-        t.start();
+        time.start();
     }
     
+    //Initiate AventureScreen with a player
     public AdventureScreen(Player player1) {
-      this.p = player1;
-      addKeyListener(this);
-      setFocusable(true);
-      addMouseListener(this);
+        this.player = player1;
+        addKeyListener(this);
+        setFocusable(true);
+        addMouseListener(this);
       
-      setLayout(new GridBagLayout());
-      Enemy firstEnemy = enemyFactory.getEnemy();
-      enemyList.add(firstEnemy);
+        setLayout(new GridBagLayout());
+        Enemy firstEnemy = enemyFactory.getEnemy();
+        enemyList.add(firstEnemy);
       
-      t.start();
-  }
+        time.start();
+    }
     
+    //paint the player, wall and enemy
     public void paint(Graphics g) {
         //g.clearRect(lastX, lastY, 25, 25);
         g.clearRect(0, 0, getWidth(), getHeight());
 
-        if(isWall) {
+        if (isWall) {
             g.setColor(Color.getHSBColor(200, 20, 50));
             g.fillRect(0, 0, 100, 50);
-        }else {
+        } else {
             g.setColor(Color.GREEN);
             g.fillRect(0, 0, 100, 50);
         }
         
-        p.draw(g);
-        for(int i = 0; i < wallList.size(); i++) {
+        player.draw(g);
+        for (int i = 0; i < wallList.size(); i++) {
             wallList.get(i).draw(g);
         }
-        for(int i = 0; i < enemyList.size(); i++) {
+        for (int i = 0; i < enemyList.size(); i++) {
             enemyList.get(i).draw(g);
         }
         
@@ -97,52 +100,61 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     @Override
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
-        lastX = p.getDx();
-        lastY = p.getDy();
+        lastX = player.getDx();
+        lastY = player.getDy();
         
         willIntercect = false;
         
-        switch(e.getKeyCode()) {
-        case KeyEvent.VK_RIGHT:
-        case KeyEvent.VK_D:
-            for(int i = 0; i < wallList.size(); i++) {
-                if(wallList.get(i).intersects(p.getX() + 25, p.getY(), 25, 25))
-                    willIntercect = true;
-            }
-            if(!willIntercect)
-                p.setDx(25);
-            break;
-        case KeyEvent.VK_DOWN:
-        case KeyEvent.VK_S:
-            for(int i = 0; i < wallList.size(); i++) {
-                if(wallList.get(i).intersects(p.getX(), p.getY() + 25, 25, 25))
-                    willIntercect = true;
-            }
-            if(!willIntercect)
-                p.setDy(25);
-            break;
-        case KeyEvent.VK_LEFT:
-        case KeyEvent.VK_A:
-            for(int i = 0; i < wallList.size(); i++) {
-                if(wallList.get(i).intersects(p.getX() - 25, p.getY(), 25, 25))
-                    willIntercect = true;
-            }
-            if(!willIntercect)
-                p.setDx(-25);
-            break;
-        case KeyEvent.VK_UP:
-        case KeyEvent.VK_W:
-            for(int i = 0; i < wallList.size(); i++) {
-                if(wallList.get(i).intersects(p.getX(), p.getY() - 25, 25, 25))
-                    willIntercect = true;
-            }
-            if(!willIntercect)
-                p.setDy(-25);
-            break;
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                for (int i = 0; i < wallList.size(); i++) {
+                    if (wallList.get(i).intersects(player.getX() + 25, player.getY(), 25, 25)) {
+                        willIntercect = true;
+                    }
+                }
+                if (!willIntercect) {
+                    player.setDx(25);
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
+                for (int i = 0; i < wallList.size(); i++) {
+                    if (wallList.get(i).intersects(player.getX(), player.getY() + 25, 25, 25)) {
+                        willIntercect = true;
+                    }
+                }
+                if (!willIntercect) {
+                    player.setDy(25);
+                }
+                break;
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                for (int i = 0; i < wallList.size(); i++) {
+                    if (wallList.get(i).intersects(player.getX() - 25, player.getY(), 25, 25)) {
+                        willIntercect = true;
+                    }
+                }
+                if (!willIntercect) {
+                    player.setDx(-25);
+                }
+                break;
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
+                for (int i = 0; i < wallList.size(); i++) {
+                    if (wallList.get(i).intersects(player.getX(), player.getY() - 25, 25, 25)) {
+                        willIntercect = true;
+                    }
+                }
+                if (!willIntercect) {
+                    player.setDy(-25);
+                }
+                break;
+            default:
         }
            
-        for(int i = 0; i < enemyList.size(); i++) {
-            if(p.intersects(enemyList.get(i))) {
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (player.intersects(enemyList.get(i))) {
                 battle = true;
                 System.out.println("Battle");
                 
@@ -152,7 +164,7 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
                 frame.getContentPane().removeAll();
 
                 //sm.battle(frame, p, enemyList.get(i));
-                sm.battle(frame, p, enemyList.get(i), panel);
+                sm.battle(frame, player, enemyList.get(i), panel);
 
                 frame.revalidate();
 
@@ -173,11 +185,11 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        p.tick();
-        for(int i = 0; i < wallList.size(); i++) {
+        player.tick();
+        for (int i = 0; i < wallList.size(); i++) {
             wallList.get(i).tick();
         }
-        for(int i = 0; i < enemyList.size(); i++) {
+        for (int i = 0; i < enemyList.size(); i++) {
             enemyList.get(i).tick();
         }
         repaint();
@@ -193,20 +205,19 @@ public class AdventureScreen extends JPanel implements ActionListener, KeyListen
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
 
-        if(isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
+        if (isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
             Wall w = new Wall(25,25,25,25,e.getX(),e.getY());
             wallList.add(w);
         }
-        if(!isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
+        if (!isWall && (!(e.getX() < 100) || !(e.getY() < 50))) {
             //Enemy enemy = new Enemy(e.getX(),e.getY());
             Enemy enemy = enemyFactory.getEnemy();
             enemyList.add(enemy);
         }
         
-        if(e.getX() < 100 && e.getY() < 50) {
+        if (e.getX() < 100 && e.getY() < 50) {
             isWall = false;
-        }
-        else {
+        } else {
             isWall = true;
         }
     }

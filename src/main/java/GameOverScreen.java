@@ -6,43 +6,38 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import java.awt.event.KeyAdapter;
 
 public class GameOverScreen extends JPanel implements ActionListener, MouseListener {
     
-    Timer t = new Timer(10,this);
+    Timer time = new Timer(10,this);
     Player player;
     //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
     Enemy enemy;
     
-    Font font = new Font("Verdana", Font.BOLD+Font.ITALIC, 56);
+    Font font;
     
-    SceneMediator sm = new SceneMediator(player);
+    SceneMediator sm;
     
     int lastX = 0;
     int lastY = 0;
     
     public GameOverScreen() {
+        sm = new SceneMediator();
+        this.font = new Font("Verdana", Font.BOLD + Font.ITALIC, 56);
         
         setFocusable(true);
         addMouseListener(this);
-        
         setLayout(new GridBagLayout());
         
-        t.start();
+        time.start();
     }
     
     public void paint(Graphics g) {

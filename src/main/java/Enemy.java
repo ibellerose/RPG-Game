@@ -5,7 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class Enemy extends Rectangle {
-    private int dx, dy;
+    private int dx;
+    private int dy;
     private Attack[] attacks = new Attack[4];
     private int health;
     private String name;
@@ -60,10 +61,9 @@ public class Enemy extends Rectangle {
     public void decreaseHealth(int healthChange) {
         int newHealth = this.health;
         newHealth -= healthChange;
-        if(newHealth < 0) {
+        if (newHealth < 0) {
             this.health = 0;
-        }
-        else {
+        } else {
             this.health = newHealth;
         }
     }

@@ -5,7 +5,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class Wall extends Rectangle {
-    private int dx, dy;
+    private int dx;
+    private int dy;
     
     public Wall(int x, int y, int width, int height, int dx, int dy) {
         setBounds(x,y,width,height);

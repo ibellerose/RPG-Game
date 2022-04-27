@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -18,37 +16,38 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import java.awt.event.KeyAdapter;
-
 public class BattleScreen extends JPanel implements ActionListener, MouseListener {
     
-    Timer t = new Timer(10,this);
+    Timer time = new Timer(10,this);
     Player player;
-    //Wall w = new Wall(25,25,25,25,0,0);
     ArrayList<Wall> wallList = new ArrayList<Wall>();
     Enemy enemy;
     JPanel panel;
     
-    Font font = new Font("Serif", Font.PLAIN, 24);
+    Font font;
     
-    SceneMediator sm = new SceneMediator(player);
+    SceneMediator sm;
     
     int lastX = 0;
     int lastY = 0;
     
+    //Initiate battle screen with adventure screen
     public BattleScreen(Player p, Enemy e, JPanel panel) {
         this.panel = panel;
         this.player = p;
         this.enemy = e;
         
+        this.sm = new SceneMediator(player);
+        this.font = new Font("Serif", Font.PLAIN, 24);
+        
         setFocusable(true);
         addMouseListener(this);
-        
         setLayout(new GridBagLayout());
         
-        t.start();
+        time.start();
     }
     
+    //Initiate AventureScreen
     public void paint(Graphics g) {
         //g.clearRect(lastX, lastY, 25, 25);
         g.clearRect(0, 0, getWidth(), getHeight());
@@ -89,18 +88,18 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
         
         //enemyHealth
         g.setColor(new Color(0, 255, 0));
-        if(enemy.getHealth() <= 50) {
+        if (enemy.getHealth() <= 50) {
             g.setColor(new Color(255, 255, 0));
-            if(enemy.getHealth() <= 25) {
+            if (enemy.getHealth() <= 25) {
                 g.setColor(new Color(255, 0, 0));
             }
         }
         g.fillRect(200, 50, enemy.getHealth(), 10);
         //playerHelth
         g.setColor(new Color(0, 255, 0));
-        if(player.getHealth() <= 50) {
+        if (player.getHealth() <= 50) {
             g.setColor(new Color(255, 255, 0));
-            if(player.getHealth() <= 25) {
+            if (player.getHealth() <= 25) {
                 g.setColor(new Color(255, 0, 0));
             }
         }
@@ -124,21 +123,17 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-//        if(e.getX() > 0 && e.getY() > 400 && e.getY() < 475 && e.getX() < 75) {
-        if(e.getX() > 0 && e.getY() > 400 && e.getX() < 175 && e.getY() < 475) {
+        if (e.getX() > 0 && e.getY() > 400 && e.getX() < 175 && e.getY() < 475) {
             this.enemy.decreaseHealth(this.player.getDamage(0));
-        }
-        else if(e.getX() > 175 && e.getY() > 400 && e.getX() < 350 && e.getY() < 475) {
+        } else if (e.getX() > 175 && e.getY() > 400 && e.getX() < 350 && e.getY() < 475) {
             this.enemy.decreaseHealth(this.player.getDamage(1));
-        }
-        else if(e.getX() > 0 && e.getY() > 475 && e.getX() < 175 && e.getY() < 550) {
+        } else if (e.getX() > 0 && e.getY() > 475 && e.getX() < 175 && e.getY() < 550) {
             this.enemy.decreaseHealth(this.player.getDamage(2));
-        }
-        else if(e.getX() > 175 && e.getY() > 475 && e.getX() < 350 && e.getY() < 550) {
+        } else if (e.getX() > 175 && e.getY() > 475 && e.getX() < 350 && e.getY() < 550) {
             this.enemy.decreaseHealth(this.player.getDamage(3));
         }
         
-        if(this.enemy.getHealth() == 0) {
+        if (this.enemy.getHealth() == 0) {
             JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,this);
             frame.getContentPane().removeAll();
             this.player.movePlayer(50, 250);
@@ -149,14 +144,13 @@ public class BattleScreen extends JPanel implements ActionListener, MouseListene
             frame.pack();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(590, 590);
-        }
-        else {
+        } else {
             Random rand = new Random();
             
             int randomNumber = rand.nextInt(4);
             this.player.decreaseHealth(this.enemy.getDamage(randomNumber));
             
-            if(this.player.getHealth() == 0) {
+            if (this.player.getHealth() == 0) {
                 JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class,this);
                 frame.getContentPane().removeAll();
     

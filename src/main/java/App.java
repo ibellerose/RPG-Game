@@ -3,7 +3,7 @@ package main.java;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class App extends JFrame{
+public class App extends JFrame {
     JFrame appFrame;
     JButton wall = new JButton("Wall");
     JButton enemy = new JButton("enemy");
@@ -20,18 +20,19 @@ public class App extends JFrame{
         
         sm.adventure(this);
         
-        //Init();
+        //init();
     }
     
-    public void Init() {
-        
-        AdventureScreen s = new AdventureScreen();
-        
-        add(s);
-        setVisible(true);
-    }
-    
-    public SceneMediator getMediator() {
-        return this.sm;
-    }
+    //initiate 
+//    public void init() {
+//        
+//        AdventureScreen s = new AdventureScreen();
+//        
+//        add(s);
+//        setVisible(true);
+//    }
+//    
+//    public SceneMediator getMediator() {
+//        return this.sm;
+//    }
 }
